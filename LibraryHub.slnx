@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="LibraryHub.Api/LibraryHub.Api.csproj" />
+  <Project Path="LibraryHub.Common/LibraryHub.Common.csproj" />
+  <Project Path="LibraryHub.Web/LibraryHub.Web.csproj" />
+</Solution>
