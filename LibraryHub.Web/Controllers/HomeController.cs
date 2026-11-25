@@ -1,24 +1,27 @@
-using System.Diagnostics;
+using LibraryHub.Common.Dtos;
+using LibraryHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using LibraryHub.Web.Models;
 
-namespace LibraryHub.Web.Controllers;
-
-public class HomeController : Controller
+namespace LibraryHub.Web.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        private readonly LibraryApiClient _api;
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public HomeController(LibraryApiClient api)
+        {
+            _api = api;
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public async Task<IActionResult> Index()
+        {
+            var response = await _api.GetDashboardAsync();
+            return View(response.Data ?? new DashboardDto());
+        }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

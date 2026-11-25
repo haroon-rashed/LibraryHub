@@ -1,0 +1,31 @@
+﻿@model LoanFormViewModel
+@{
+    ViewData["Title"] = "Borrow a book";
+}
+
+<h1 class="mb-3">Borrow a book</h1>
+
+<form asp-action="Create" method="post" class="col-md-6">
+    <div class="mb-3">
+        <label asp-for="BookId" class="form-label"></label>
+        <select asp-for="BookId" asp-items="Model.Books" class="form-select">
+            <option value="0">-- Select a book --</option>
+        </select>
+        <span asp-validation-for="BookId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MemberId" class="form-label"></label>
+        <select asp-for="MemberId" asp-items="Model.Members" class="form-select">
+            <option value="0">-- Select a member --</option>
+        </select>
+        <span asp-validation-for="MemberId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Borrow</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,77 @@
+﻿@model MemberListViewModel
+@{
+    ViewData["Title"] = "Members";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Members</h1>
+    <a asp-action="Create" class="btn btn-primary">Add member</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-sm-6 col-md-4">
+        <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Search by name or email" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+        <a asp-action="Index" class="btn btn-link">Clear</a>
+    </div>
+</form>
+
+@if (!Model.Result.Items.Any())
+{
+    <div class="alert alert-info">No members found.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Joined</th>
+                <th>Status</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model.Result.Items)
+            {
+                <tr>
+                    <td>@member.FullName</td>
+                    <td>@member.Email</td>
+                    <td>@member.Phone</td>
+                    <td>@member.JoinedOn.ToString("dd MMM yyyy")</td>
+                    <td>
+                        @if (member.IsActive)
+                        {
+                            <span class="badge text-bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-secondary">Inactive</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        @if (member.IsActive)
+                        {
+                            <a asp-controller="Loans" asp-action="Create" asp-route-memberId="@member.Id" class="btn btn-sm btn-success">Borrow</a>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-sm btn-success" disabled>Borrow</button>
+                        }
+                        <a asp-action="Edit" asp-route-id="@member.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@member.Id" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete this member?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <partial name="_Pager" model="new PagerViewModel { Page = Model.Result.Page, TotalPages = Model.Result.TotalPages, Search = Model.Search }" />
+}

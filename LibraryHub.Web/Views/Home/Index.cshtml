@@ -1,8 +1,49 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model LibraryHub.Common.Dtos.DashboardDto
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row g-3">
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Books" asp-action="Index" class="text-decoration-none">
+            <div class="card text-bg-primary h-100">
+                <div class="card-body">
+                    <div class="display-5 fw-bold">@Model.TotalBooks</div>
+                    <div>Books</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Members" asp-action="Index" class="text-decoration-none">
+            <div class="card text-bg-success h-100">
+                <div class="card-body">
+                    <div class="display-5 fw-bold">@Model.TotalMembers</div>
+                    <div>Members</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Loans" asp-action="Index" asp-route-status="active" class="text-decoration-none">
+            <div class="card text-bg-info h-100">
+                <div class="card-body">
+                    <div class="display-5 fw-bold">@Model.ActiveLoans</div>
+                    <div>Active loans</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Loans" asp-action="Index" asp-route-status="overdue" class="text-decoration-none">
+            <div class="card text-bg-danger h-100">
+                <div class="card-body">
+                    <div class="display-5 fw-bold">@Model.OverdueLoans</div>
+                    <div>Overdue loans</div>
+                </div>
+            </div>
+        </a>
+    </div>
 </div>
